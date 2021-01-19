@@ -1,0 +1,11 @@
+{
+  "name": "node_express_webshop",
+  "version": "1.0.0",
+  "description": "just learning express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
