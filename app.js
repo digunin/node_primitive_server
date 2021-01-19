@@ -1,4 +1,6 @@
 const http = require('http');
+const fs = require('fs');
+
 const PORT = 3000;
 
 http.createServer((req, res)=>{
@@ -9,6 +11,10 @@ http.createServer((req, res)=>{
             break;
         case "/hello":
             res.end("<h1>Hello!</h1>");
+            break;
+        case "/file":
+            let str = fs.readFileSync("1");
+            res.end(str);
             break;
     }
     res.end("Hello!");
