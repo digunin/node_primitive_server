@@ -15,7 +15,28 @@ const get = (req, res) => {
   res.end(fileContent)
 }
 
-const post = (req, res) => {}
+const post = (req, res) => {
+  let ext = req.url.slice(1)
+  let chunks = []
+  let len = 0
+  req.on('data', (data) => {
+    len += data.length
+    chunks.push(data)
+  })
+  req.on('end', () => {
+    const image = Buffer.concat(chunks, len)
+    let [savedName, srcName] = getSavedName(ext)
+    fs.writeFile(savedName, image, 'binary', (err) => {
+      if (err) {
+        console.log('error')
+      } else {
+        console.log('saved')
+      }
+    })
+    res.setHeader('Content-Type', 'text/plain')
+    res.end(srcName)
+  })
+}
 
 const fixPath = (pathName) => {
   if (pathName.startsWith('/')) {
@@ -30,6 +51,15 @@ const fixPath = (pathName) => {
     return pathName
   }
   return false
+}
+
+const getSavedName = (ext) => {
+  let images_dir = 'images'
+  let name = 'random_file'
+  return [
+    path.resolve(public_dir, images_dir, `${name}.${ext}`),
+    `${images_dir}\\${name}.${ext}`,
+  ]
 }
 
 http
